@@ -19,6 +19,5 @@ public class Task_5 {
         input.sendKeys("2000");
 
         driver.quit();
-
     }
 }
