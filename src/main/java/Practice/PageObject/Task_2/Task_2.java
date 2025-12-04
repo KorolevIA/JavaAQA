@@ -14,17 +14,17 @@ public class Task_2 {
 
         FormPage formPage = PageFactory.initElements(driver, FormPage.class);
         formPage.open();
-        formPage.setInputFirstName("Иван");
-        formPage.setInputLastName("Петров");
-        formPage.setInputAddress("Ленина, 55-3");
-        formPage.setInputCity("Москва");
-        formPage.setInputCountry("Россия");
-        formPage.setInputJobPosition("QA");
-        formPage.setInputCompany("Merion");
+        formPage.setInput("First name","Иван");
+        formPage.setInput("Last name","Петров");
+        formPage.setInput("Address","Ленина, 55-3");
+        formPage.setInput("City","Москва");
+        formPage.setInput("Country","Россия");
+        formPage.setInput("Job position","QA");
+        formPage.setInput("Company","Merion");
         ResultFormPage resultFormPage = formPage.clickSubmit();
-        String colorInputZipCode = resultFormPage.getColorInputZipCode();
-        String colorInputEmail = resultFormPage.getColorInputEmail();
-        String colorInputPhoneNumber = resultFormPage.getColorInputPhoneNumber();
+        String colorInputZipCode = resultFormPage.getColorInput("Zip code");
+        String colorInputEmail = resultFormPage.getColorInput("E-mail");
+        String colorInputPhoneNumber = resultFormPage.getColorInput("Phone number");
         formPage.close();
 
         System.out.println(colorInputZipCode);

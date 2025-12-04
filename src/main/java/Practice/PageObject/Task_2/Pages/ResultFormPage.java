@@ -1,28 +1,25 @@
 package Practice.PageObject.Task_2.Pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.List;
+
 public class ResultFormPage {
 
-    @FindBy(css = "#zip-code")
-    private WebElement inputZipCode;
+    @FindBy(css = ".form-label")
+    private List<WebElement> inputList;
 
-    @FindBy(css = "#e-mail")
-    private WebElement inputEmail;
+    public String getColorInput(String inputName) {
+        String result = "Элемент не найден";
 
-    @FindBy(css = "#phone")
-    private WebElement inputPhoneNumber;
-
-    public String getColorInputZipCode() {
-        return inputZipCode.getCssValue("background-color");
+        for (WebElement input : inputList) {
+            if (input.getText().toLowerCase().startsWith(inputName.toLowerCase())) {
+                result = input.findElement(By.cssSelector(".alert")).getCssValue("background-color");
+            }
+        }
+        return result;
     }
 
-    public String getColorInputEmail() {
-        return inputEmail.getCssValue("background-color");
-    }
-
-    public String getColorInputPhoneNumber() {
-        return inputPhoneNumber.getCssValue("background-color");
-    }
 }
