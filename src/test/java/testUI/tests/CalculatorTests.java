@@ -25,7 +25,9 @@ public class CalculatorTests {
 
     @AfterEach
     public void quitDriver() {
-        driver.quit();
+        if (driver != null) {
+            driver.quit();
+        }
     }
 
     @Test

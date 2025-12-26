@@ -34,7 +34,9 @@ public class SwagLabsTests {
 
     @AfterEach
     public void quitDriver() {
-        driver.quit();
+        if (driver != null) {
+            driver.quit();
+        }
     }
 
     // Tests

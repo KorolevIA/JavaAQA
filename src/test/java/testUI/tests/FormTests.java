@@ -26,7 +26,9 @@ public class FormTests {
 
     @AfterEach
     public void quitDriver() {
-        driver.quit();
+        if (driver != null) {
+            driver.quit();
+        }
     }
 
     @Test

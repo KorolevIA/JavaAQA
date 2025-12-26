@@ -27,7 +27,9 @@ public class RenameButtonTests {
 
     @AfterEach
     public void quitDriver() {
-        this.driver.quit();
+        if (driver != null) {
+            driver.quit();
+        }
     }
 
     @Test
