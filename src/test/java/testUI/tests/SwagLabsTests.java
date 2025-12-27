@@ -1,17 +1,14 @@
 package testUI.tests;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.PageFactory;
 import testUI.pages.swagLabsPages.*;
 
-import java.time.Duration;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -20,29 +17,11 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
+@ExtendWith(DriverResolver.class)
 public class SwagLabsTests {
 
-    private WebDriver driver;
-
-    @BeforeEach
-    public void setUp() {
-        driver = new FirefoxDriver();
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(4));
-        driver.get("https://www.saucedemo.com/");
-    }
-
-    @AfterEach
-    public void quitDriver() {
-        if (driver != null) {
-            driver.quit();
-        }
-    }
-
-    // Tests
-
     @Test
-    public void checkTotalPrice() {
+    public void checkTotalPrice(WebDriver driver) {
         List<String> items = Arrays.asList("Sauce Labs Backpack", "Sauce Labs Bolt T-Shirt", "Sauce Labs Onesie");
 
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
@@ -58,7 +37,7 @@ public class SwagLabsTests {
     }
 
     @Test
-    public void loginLockedOutUser() {
+    public void loginLockedOutUser(WebDriver driver) {
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
         loginPage.loginInSwagLabs("locked_out_user", "secret_sauce");
 
@@ -66,7 +45,7 @@ public class SwagLabsTests {
     }
 
     @Test
-    public void checkItemTitleInCart() {
+    public void checkItemTitleInCart(WebDriver driver) {
         List<String> items = Arrays.asList("Sauce Labs Backpack", "Sauce Labs Onesie", "Sauce Labs Bolt T-Shirt");
 
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
@@ -83,7 +62,7 @@ public class SwagLabsTests {
 
     @ParameterizedTest
     @MethodSource("getItemList")
-    public void checkSizeCart(List<String> items) {
+    public void checkSizeCart(List<String> items, WebDriver driver) {
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
         MainPage mainPage = loginPage.loginInSwagLabs("standard_user", "secret_sauce");
         mainPage.addItemInCart(items);
