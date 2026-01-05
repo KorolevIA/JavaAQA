@@ -14,6 +14,9 @@ public class Employee {
 
         CompanyService company = new CompanyService(token);
         String companyID = company.addCompany();
+
+        EmployeeService employee = new EmployeeService(token, companyID);
+        String employeeID = employee.addEmployee("Иванов", "Иван", "89994563345");
     }
 
 }
