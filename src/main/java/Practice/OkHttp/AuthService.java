@@ -9,8 +9,8 @@ import java.io.IOException;
 
 public class AuthService {
 
-    OkHttpClient client = new OkHttpClient();
-    ObjectMapper mapper = new ObjectMapper();
+    private OkHttpClient client = new OkHttpClient();
+    private ObjectMapper mapper = new ObjectMapper();
 
     private final String URL = "http://51.250.26.13:8083/auth/login";
     private String LOGIN;
@@ -26,7 +26,11 @@ public class AuthService {
         String json = mapper.writeValueAsString(auth);
 
         RequestBody reqBody = RequestBody.create(json, MediaType.get("application/json"));
-        Request request = new Request.Builder().url(URL).post(reqBody).build();
+        Request request = new Request.Builder()
+                .url(URL)
+                .post(reqBody)
+                .build();
+
         Response response = client.newCall(request).execute();
 
         return mapper.readValue(response.body().string(), AuthResponse.class).userToken();

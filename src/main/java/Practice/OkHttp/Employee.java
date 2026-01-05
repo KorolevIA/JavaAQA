@@ -11,6 +11,9 @@ public class Employee {
 
         AuthService auth = new AuthService(LOGIN, PASSWORD);
         String token = auth.getToken();
+
+        CompanyService company = new CompanyService(token);
+        String companyID = company.addCompany();
     }
 
 }
