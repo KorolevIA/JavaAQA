@@ -9,11 +9,11 @@ import java.io.IOException;
 
 public class CompanyService {
 
-    private OkHttpClient client = new OkHttpClient();
-    private ObjectMapper mapper = new ObjectMapper();
+    private final OkHttpClient client = new OkHttpClient();
+    private final ObjectMapper mapper = new ObjectMapper();
 
     private final String URL = "http://51.250.26.13:8083/company";
-    private String token;
+    private final String token;
 
     public CompanyService(String token) {
         this.token = token;

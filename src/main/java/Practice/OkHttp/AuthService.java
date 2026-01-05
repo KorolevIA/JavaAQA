@@ -9,12 +9,12 @@ import java.io.IOException;
 
 public class AuthService {
 
-    private OkHttpClient client = new OkHttpClient();
-    private ObjectMapper mapper = new ObjectMapper();
+    private final OkHttpClient client = new OkHttpClient();
+    private final ObjectMapper mapper = new ObjectMapper();
 
     private final String URL = "http://51.250.26.13:8083/auth/login";
-    private String LOGIN;
-    private String PASSWORD;
+    private final String LOGIN;
+    private final String PASSWORD;
 
     public AuthService(String login, String password) {
         this.LOGIN = login;
