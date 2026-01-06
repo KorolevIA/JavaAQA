@@ -53,4 +53,40 @@ public class EmployeeService {
         return mapper.readValue(response.body().string(), new TypeReference<List<GetAllEmployeeResponse>>() {});
     }
 
+    public int updateEmployee(String employeeID, String parameter, String value) throws IOException {
+        HttpUrl url = HttpUrl.parse(URL).newBuilder()
+                .addPathSegment(String.valueOf(employeeID))
+                .build();
+
+        String json = "{\""+parameter+"\":\""+value+"\"}";
+        RequestBody reqBody = RequestBody.create(json, MediaType.get("application/json"));
+
+        Request request = new Request.Builder()
+                .url(url)
+                .header("x-client-token", token)
+                .patch(reqBody)
+                .build();
+
+        Response response = client.newCall(request).execute();
+        return response.code();
+    }
+
+    public int deactivationEmployee(String employeeID) throws IOException {
+        HttpUrl url = HttpUrl.parse(URL).newBuilder()
+                .addPathSegment(String.valueOf(employeeID))
+                .build();
+
+        String json = "{\"isActive\":\"false\"}";
+        RequestBody reqBody = RequestBody.create(json, MediaType.get("application/json"));
+
+        Request request = new Request.Builder()
+                .url(url)
+                .header("x-client-token", token)
+                .patch(reqBody)
+                .build();
+
+        Response response = client.newCall(request).execute();
+        return response.code();
+    }
+
 }
