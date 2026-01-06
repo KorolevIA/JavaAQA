@@ -36,7 +36,6 @@ public class EmployeeService {
                 .build();
 
         Response response = client.newCall(request).execute();
-
         return mapper.readValue(response.body().string(), CreateNewEmployeeResponse.class).id();
     }
 
@@ -53,9 +52,9 @@ public class EmployeeService {
         return mapper.readValue(response.body().string(), new TypeReference<List<GetAllEmployeeResponse>>() {});
     }
 
-    public int updateEmployee(String employeeID, String parameter, String value) throws IOException {
+    public int updateEmployeeByParameter(String employeeID, String parameter, String value) throws IOException {
         HttpUrl url = HttpUrl.parse(URL).newBuilder()
-                .addPathSegment(String.valueOf(employeeID))
+                .addPathSegment(employeeID)
                 .build();
 
         String json = "{\""+parameter+"\":\""+value+"\"}";
@@ -73,7 +72,7 @@ public class EmployeeService {
 
     public int deactivationEmployee(String employeeID) throws IOException {
         HttpUrl url = HttpUrl.parse(URL).newBuilder()
-                .addPathSegment(String.valueOf(employeeID))
+                .addPathSegment(employeeID)
                 .build();
 
         String json = "{\"isActive\":\"false\"}";
@@ -87,6 +86,35 @@ public class EmployeeService {
 
         Response response = client.newCall(request).execute();
         return response.code();
+    }
+
+    public int updateLastName(String employeeID, String newLastName) throws IOException {
+        return updateEmployeeByParameter(employeeID, "lastName", newLastName);
+    }
+
+    public int updateEmail(String employeeID, String newEmail) throws IOException {
+        return updateEmployeeByParameter(employeeID, "email", newEmail);
+    }
+
+    public int updateURL(String employeeID, String newURL) throws IOException {
+        return updateEmployeeByParameter(employeeID, "url", newURL);
+    }
+
+    public int updatePhone(String employeeID, String newPhone) throws IOException {
+        return updateEmployeeByParameter(employeeID, "phone", newPhone);
+    }
+
+    public String getEmployeeByID(String employeeID) throws IOException {
+        HttpUrl url = HttpUrl.parse(URL).newBuilder()
+                .addPathSegment(employeeID)
+                .build();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        Response response = client.newCall(request).execute();
+        return response.body().string();
     }
 
 }

@@ -23,16 +23,24 @@ public class Employee {
 
         String employeeID_1 = employee.addEmployee("Иванов", "Иван", "89994563345");
         System.out.println("EmployeeID_1 " + employeeID_1);
-        int updateStatusCode = employee.updateEmployee(employeeID_1, "lastName", "Test");
-        System.out.println(updateStatusCode);
-
         String employeeID_2 = employee.addEmployee("Петров", "Дмитрий", "89856007070");
         System.out.println("EmployeeID_2 " + employeeID_2);
-        int deactivationStatusCode = employee.deactivationEmployee(employeeID_2);
-        System.out.println(deactivationStatusCode);
 
         List<GetAllEmployeeResponse> employeeList = employee.getAllEmployee();
         System.out.println(employeeList);
+
+        int updateStatusCode = employee.updateLastName(employeeID_1, "Test");
+        System.out.println(updateStatusCode);
+        int deactivationStatusCode = employee.deactivationEmployee(employeeID_2);
+        System.out.println(deactivationStatusCode);
+
+        String employee_1 = employee.getEmployeeByID(employeeID_1);
+        System.out.println(employee_1);
+        String employee_2 = employee.getEmployeeByID(employeeID_2);
+        System.out.println(employee_2);
+
+        int deleteStatusCode = company.deleteCompany(companyID);
+        System.out.println(deleteStatusCode);
     }
 
 }

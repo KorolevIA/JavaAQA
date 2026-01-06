@@ -39,4 +39,19 @@ public class CompanyService {
         return mapper.readValue(response.body().string(), CreateNewCompanyResponse.class).id();
     }
 
+    public int deleteCompany(String companyID) throws IOException {
+        HttpUrl url = HttpUrl.parse(URL).newBuilder()
+                .addPathSegment("delete")
+                .addPathSegment(companyID)
+                .build();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .header("x-client-token", token)
+                .build();
+
+        Response response = client.newCall(request).execute();
+        return response.code();
+    }
+
 }
