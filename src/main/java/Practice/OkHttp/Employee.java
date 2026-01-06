@@ -1,6 +1,9 @@
 package Practice.OkHttp;
 
+import Practice.OkHttp.Model.GetAllEmployeeResponse;
+
 import java.io.IOException;
+import java.util.List;
 
 public class Employee {
 
@@ -14,9 +17,17 @@ public class Employee {
 
         CompanyService company = new CompanyService(token);
         String companyID = company.addCompany();
+        System.out.println("CompanyID " + companyID);
 
         EmployeeService employee = new EmployeeService(token, companyID);
-        String employeeID = employee.addEmployee("Иванов", "Иван", "89994563345");
+
+        String employeeID_1 = employee.addEmployee("Иванов", "Иван", "89994563345");
+        System.out.println("EmployeeID_1 " + employeeID_1);
+        String employeeID_2 = employee.addEmployee("Петров", "Дмитрий", "89856007070");
+        System.out.println("EmployeeID_2 " + employeeID_2);
+
+        List<GetAllEmployeeResponse> employeeList = employee.getAllEmployee();
+        System.out.println(employeeList);
     }
 
 }

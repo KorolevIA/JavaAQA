@@ -2,10 +2,13 @@ package Practice.OkHttp;
 
 import Practice.OkHttp.Model.CreateNewEmployeeRequest;
 import Practice.OkHttp.Model.CreateNewEmployeeResponse;
+import Practice.OkHttp.Model.GetAllEmployeeResponse;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.*;
 
 import java.io.IOException;
+import java.util.List;
 
 public class EmployeeService {
 
@@ -35,6 +38,19 @@ public class EmployeeService {
         Response response = client.newCall(request).execute();
 
         return mapper.readValue(response.body().string(), CreateNewEmployeeResponse.class).id();
+    }
+
+    public List<GetAllEmployeeResponse> getAllEmployee() throws IOException {
+        HttpUrl url = HttpUrl.parse(URL).newBuilder()
+                .addQueryParameter("company", companyID)
+                .build();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        Response response = client.newCall(request).execute();
+        return mapper.readValue(response.body().string(), new TypeReference<List<GetAllEmployeeResponse>>() {});
     }
 
 }
