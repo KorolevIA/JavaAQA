@@ -19,11 +19,11 @@ public class CompanyService {
         this.token = token;
     }
 
-    public String addCompany() throws IOException {
+    public int addCompany() throws IOException {
         return addCompany("Test", "For test");
     }
 
-    public String addCompany(String name, String description) throws IOException {
+    public int addCompany(String name, String description) throws IOException {
         CreateNewCompanyRequest company = new CreateNewCompanyRequest(name, description);
         String json = mapper.writeValueAsString(company);
 
@@ -36,13 +36,13 @@ public class CompanyService {
 
         Response response = client.newCall(request).execute();
 
-        return mapper.readValue(response.body().string(), CreateNewCompanyResponse.class).id();
+        return Integer.parseInt(mapper.readValue(response.body().string(), CreateNewCompanyResponse.class).id());
     }
 
-    public int deleteCompany(String companyID) throws IOException {
+    public void deleteCompany(int companyID) throws IOException {
         HttpUrl url = HttpUrl.parse(URL).newBuilder()
                 .addPathSegment("delete")
-                .addPathSegment(companyID)
+                .addPathSegment(String.valueOf(companyID))
                 .build();
 
         Request request = new Request.Builder()
@@ -50,8 +50,7 @@ public class CompanyService {
                 .header("x-client-token", token)
                 .build();
 
-        Response response = client.newCall(request).execute();
-        return response.code();
+        client.newCall(request).execute();
     }
 
 }
