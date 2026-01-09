@@ -53,4 +53,10 @@ public class CompanyService {
         client.newCall(request).execute();
     }
 
+    public int getDeletedCompany() throws IOException {
+        int deletedCompanyID = addCompany();
+        deleteCompany(deletedCompanyID);
+        return deletedCompanyID;
+    }
+
 }

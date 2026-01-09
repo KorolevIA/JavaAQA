@@ -23,6 +23,10 @@ public class EmployeeService {
         return companyID;
     }
 
+    public String getToken() {
+        return token;
+    }
+
     public EmployeeService(String token, int companyID) {
         this.token = token;
         this.companyID = companyID;
@@ -119,6 +123,21 @@ public class EmployeeService {
 
         Response response = client.newCall(request).execute();
         return mapper.readValue(response.body().string(), Employee.class);
+    }
+
+    public String addEmployeeInNewCompany(int newCompanyID, String firstname, String lastname, String phone) throws IOException {
+        CreateNewEmployeeRequest employee = new CreateNewEmployeeRequest(firstname, lastname, newCompanyID, phone);
+        String json = mapper.writeValueAsString(employee);
+
+        RequestBody reqBody = RequestBody.create(json, MediaType.get("application/json"));
+        Request request = new Request.Builder()
+                .url(URL)
+                .header("x-client-token", token)
+                .post(reqBody)
+                .build();
+
+        Response response = client.newCall(request).execute();
+        return response.body().string();
     }
 
 }
