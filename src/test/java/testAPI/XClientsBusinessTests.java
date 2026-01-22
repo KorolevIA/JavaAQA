@@ -16,6 +16,10 @@ import static org.junit.Assert.*;
 @ExtendWith(EmplServiceResolver.class)
 public class XClientsBusinessTests {
 
+    public final String CONNECTION_URL = "jdbc:postgresql://51.250.26.13/pg-x-clients-be";
+    private final String CONNECTION_USERNAME = "merionpg";
+    private final String CONNECTION_PASSWORD = "UZObS42{8>}>";
+
     private final String LOGIN = "leonardo";
     private final String PASSWORD = "leads";
 
