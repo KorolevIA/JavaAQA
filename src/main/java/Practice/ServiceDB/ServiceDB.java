@@ -86,6 +86,22 @@ public class ServiceDB {
         return result.getString("company_id");
     }
 
+    public String getEmployeeIsActive(int employeeID) throws SQLException {
+        String sql = "select is_active from employee where id = ";
+
+        ResultSet result = connection.createStatement().executeQuery(sql + String.valueOf(employeeID));
+        result.next();
+        return result.getString("is_active");
+    }
+
+    public String getEmployeeEmail(int employeeID) throws SQLException {
+        String sql = "select email from employee where id = ";
+
+        ResultSet result = connection.createStatement().executeQuery(sql + String.valueOf(employeeID));
+        result.next();
+        return result.getString("email");
+    }
+
     public void deleteCompany(int companyID) throws SQLException {
         String sql = "delete from company where id = ";
 

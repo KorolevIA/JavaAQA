@@ -1,17 +1,19 @@
 package testAPI;
 
 import Practice.OkHttp.AuthService;
-import Practice.OkHttp.CompanyService;
 import Practice.OkHttp.EmployeeService;
 import Practice.OkHttp.Model.Employee;
+import Practice.ServiceDB.ServiceDB;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.*;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -22,7 +24,11 @@ public class XClientsContractTests {
     private final String PASSWORD = "leads";
     private final String URL = "http://51.250.26.13:8083/employee";
 
-    private CompanyService companyService;
+    private final String CONNECTION_URL = "jdbc:postgresql://51.250.26.13/pg-x-clients-be";
+    private final String CONNECTION_USERNAME = "merionpg";
+    private final String CONNECTION_PASSWORD = "UZObS42{8>}>";
+
+    private static ServiceDB serviceDB;
     private String token;
     private int companyID;
 
@@ -30,15 +36,22 @@ public class XClientsContractTests {
     private final ObjectMapper mapper = new ObjectMapper();
 
     @BeforeEach
-    public void setUP() throws IOException {
+    public void setUP() throws IOException, SQLException {
         token = new AuthService(LOGIN, PASSWORD).getToken();
-        companyService = new CompanyService(token);
-        companyID = companyService.addCompany();
+        if (serviceDB == null) {
+            serviceDB = new ServiceDB(CONNECTION_URL, CONNECTION_USERNAME, CONNECTION_PASSWORD);
+        }
+        companyID = serviceDB.createCompany("Test", "For test");
     }
 
     @AfterEach
-    public void deleteCompany() throws IOException {
-        companyService.deleteCompany(companyID);
+    public void deleteCompany() throws SQLException {
+        serviceDB.deleteCompany(companyID);
+    }
+
+    @AfterAll
+    public static void closeConnection() throws SQLException {
+        serviceDB.closeConnection();
     }
 
     @Test
