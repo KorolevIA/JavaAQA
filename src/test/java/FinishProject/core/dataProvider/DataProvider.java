@@ -20,12 +20,20 @@ public class DataProvider {
         return node.get("url").asText();
     }
 
-    public String getLogin() {
-        return node.get("login").asText();
+    public String getStandardLogin() {
+        return node.get("standardLogin").asText();
+    }
+
+    public String getLockedLogin() {
+        return node.get("lockedLogin").asText();
     }
 
     public String getPassword() {
         return node.get("password").asText();
+    }
+
+    public String getErrorMessage() {
+        return node.get("errorMessage").asText();
     }
 
 }

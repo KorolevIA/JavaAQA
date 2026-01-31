@@ -10,6 +10,9 @@ import org.junit.jupiter.api.extension.ParameterResolver;
 import java.io.IOException;
 
 public class DataProviderResolver implements ParameterResolver {
+
+    private DataProvider dataProvider;
+
     @Override
     public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
         return parameterContext.getParameter().getType().equals(DataProvider.class);
@@ -17,10 +20,14 @@ public class DataProviderResolver implements ParameterResolver {
 
     @Override
     public @Nullable Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
-        try {
-            return new DataProvider();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if (dataProvider == null) {
+            try {
+                dataProvider = new DataProvider();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
+        return dataProvider;
     }
+
 }

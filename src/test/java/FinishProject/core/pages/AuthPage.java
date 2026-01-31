@@ -22,4 +22,8 @@ public class AuthPage {
         return new InventoryPage(driver);
     }
 
+    public String getErrorMessage() {
+        return driver.findElement(By.cssSelector(".error-message-container h3")).getText();
+    }
+
 }

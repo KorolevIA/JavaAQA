@@ -1,5 +1,7 @@
 {
   "url" : "https://www.saucedemo.com/",
-  "login" : "standard_user",
-  "password" : "secret_sauce"
+  "standardLogin" : "standard_user",
+  "lockedLogin" : "locked_out_user",
+  "password" : "secret_sauce",
+  "errorMessage" : "Epic sadface: Sorry, this user has been locked out."
 }
