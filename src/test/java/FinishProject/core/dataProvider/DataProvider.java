@@ -36,4 +36,12 @@ public class DataProvider {
         return node.get("errorMessage").asText();
     }
 
+    public String getLoginAPI() {
+        return node.get("loginAPI").asText();
+    }
+
+    public String getPasswordAPI() {
+        return node.get("passwordAPI").asText();
+    }
+
 }
