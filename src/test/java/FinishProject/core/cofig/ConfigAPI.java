@@ -14,4 +14,13 @@ public interface ConfigAPI extends Config {
     @Key("employee.url")
     String employeeURL();
 
+    @Key("connection.url")
+    String connectionURL();
+
+    @Key("connection.name")
+    String connectionName();
+
+    @Key("connection.password")
+    String connectionPassword();
+
 }

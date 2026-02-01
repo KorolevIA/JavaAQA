@@ -3,7 +3,6 @@ package FinishProject.core.fixture;
 import FinishProject.core.cofig.ConfigAPI;
 import FinishProject.core.dataProvider.DataProvider;
 import FinishProject.core.serviceAPI.AuthService;
-import FinishProject.core.serviceAPI.CompanyService;
 import FinishProject.core.serviceAPI.EmployeeService;
 import org.aeonbits.owner.ConfigCache;
 import org.jspecify.annotations.Nullable;
@@ -26,7 +25,6 @@ public class EmployeeServiceResolver implements ParameterResolver {
 
         DataProvider data;
         String token;
-        int companyID;
 
         try {
             data = new DataProvider();
@@ -40,13 +38,7 @@ public class EmployeeServiceResolver implements ParameterResolver {
             throw new RuntimeException(e);
         }
 
-        try {
-            companyID = new CompanyService(config.companyURL(), token).createCompany("Test", "For test");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        return new EmployeeService(config.employeeURL(), token, companyID);
+        return new EmployeeService(config.employeeURL(), token, (Integer)extensionContext.getStore(ExtensionContext.Namespace.GLOBAL).get("companyID"));
     }
 
 }
