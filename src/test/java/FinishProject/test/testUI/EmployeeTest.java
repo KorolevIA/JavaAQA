@@ -35,7 +35,7 @@ public class EmployeeTest {
         int emplID = emplService.createEmployee(firstName, lastName, phone);
         Employee empl = dbService.getEmployeeByID(emplID);
 
-        assertEquals(companyID, empl.companyID());
+        assertEquals(companyID, empl.companyId());
         assertEquals(firstName, empl.firstName());
         assertEquals(lastName, empl.lastName());
         assertEquals(phone, empl.phone());

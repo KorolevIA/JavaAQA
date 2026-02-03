@@ -25,6 +25,21 @@ public class ServiceDB {
         return result.getInt("id");
     }
 
+    public int createEmployee(String firstName, String lastName, int companyID, String phone) throws SQLException {
+        String sql = "insert into employee(first_name, last_name, company_id, phone) values(?, ?, ?, ?)";
+
+        PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        preparedStatement.setString(1, firstName);
+        preparedStatement.setString(2, lastName);
+        preparedStatement.setInt(3, companyID);
+        preparedStatement.setString(4, phone);
+        preparedStatement.executeUpdate();
+
+        ResultSet result = preparedStatement.getGeneratedKeys();
+        result.next();
+        return result.getInt("id");
+    }
+
     public Employee getEmployeeByID(int employeeID) throws SQLException {
         String sql = "select * from employee where id = ?";
 
