@@ -1,4 +1,4 @@
-package FinishProject.test.testAPI;
+package FinishProject.test.testUI;
 
 import FinishProject.core.cofig.ConfigUI;
 import FinishProject.core.dataProvider.DataProvider;

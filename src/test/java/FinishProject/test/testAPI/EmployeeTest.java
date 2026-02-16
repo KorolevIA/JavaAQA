@@ -1,4 +1,4 @@
-package FinishProject.test.testUI;
+package FinishProject.test.testAPI;
 
 import FinishProject.core.fixture.EmployeeServiceResolver;
 import FinishProject.core.fixture.ServiceDbResolver;
