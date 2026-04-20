@@ -20,6 +20,10 @@ public class EmployeeService {
         return companyID;
     }
 
+    public String getToken() {
+        return token;
+    }
+
     public EmployeeService(String URL, String token, int companyID) {
         this.client = new OkHttpClient();
         this.mapper = new ObjectMapper();

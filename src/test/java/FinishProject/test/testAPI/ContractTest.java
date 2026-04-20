@@ -3,10 +3,14 @@ package FinishProject.test.testAPI;
 import FinishProject.core.cofig.ConfigAPI;
 import FinishProject.core.fixture.EmployeeServiceResolver;
 import FinishProject.core.fixture.ServiceDbResolver;
+import FinishProject.core.model.CreateEmployeeRequest;
 import FinishProject.core.model.Employee;
 import FinishProject.core.serviceAPI.EmployeeService;
 import FinishProject.core.serviceDB.ServiceDB;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
+import io.restassured.http.ContentType;
 import org.aeonbits.owner.ConfigCache;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -26,11 +30,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class ContractTest {
 
     private static String URL;
+    private static ObjectMapper mapper;
 
     @BeforeAll
     public static void getURL() {
         ConfigAPI config = ConfigCache.getOrCreate(ConfigAPI.class);
         URL = config.employeeURL();
+        mapper = new ObjectMapper();
     }
 
     @Test
@@ -72,6 +78,34 @@ public class ContractTest {
         assertEquals(phone2, listEmp.get(1).phone());
         assertEquals(companyID, listEmp.get(1).companyId());
         assertTrue(listEmp.get(1).isActive());
+    }
+
+    @Test
+    public void testAddEmployeeInCompany(ServiceDB serviceDB, EmployeeService serviceEmpl) throws JsonProcessingException, SQLException {
+        Faker faker = new Faker(Locale.ENGLISH);
+
+        int companyID = serviceEmpl.getCompanyID();
+        String firstName = faker.name().firstName();
+        String lastName = faker.name().lastName();
+        String phone = faker.phoneNumber().cellPhone();
+
+        String json = mapper.writeValueAsString(new CreateEmployeeRequest(firstName, lastName, companyID, phone));
+
+        int emplID = given()
+                .header("x-client-token", serviceEmpl.getToken())
+                .body(json).contentType(ContentType.JSON)
+                .post(URL)
+                .then()
+                .statusCode(201)
+                .extract().path("id");
+
+        Employee employee = serviceDB.getEmployeeByID(emplID);
+
+        assertEquals(employee.companyId(), companyID);
+        assertEquals(employee.firstName(), firstName);
+        assertEquals(employee.lastName(), lastName);
+        assertEquals(employee.phone(), phone);
+        assertTrue(employee.isActive());
     }
 
 }
