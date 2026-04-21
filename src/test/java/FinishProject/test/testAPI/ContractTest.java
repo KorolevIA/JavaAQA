@@ -31,20 +31,20 @@ public class ContractTest {
 
     private static String URL;
     private static ObjectMapper mapper;
+    private static Faker faker;
 
     @BeforeAll
     public static void getURL() {
         ConfigAPI config = ConfigCache.getOrCreate(ConfigAPI.class);
         URL = config.employeeURL();
         mapper = new ObjectMapper();
+        faker = new Faker(Locale.ENGLISH);
     }
 
     @Test
     @DisplayName("Проверка метода, который возвращает всех сотрудников компании")
     @Positive
     public void testGetAllEmployeeInCompany(ServiceDB serviceDB, EmployeeService serviceEmpl) throws SQLException {
-        Faker faker = new Faker(Locale.ENGLISH);
-
         int companyID = serviceEmpl.getCompanyID();
         String firstName1 = faker.name().firstName();
         String lastName1 = faker.name().lastName();
@@ -81,9 +81,9 @@ public class ContractTest {
     }
 
     @Test
+    @DisplayName("Проверка метода, который добавляет сотрудника в компанию")
+    @Positive
     public void testAddEmployeeInCompany(ServiceDB serviceDB, EmployeeService serviceEmpl) throws JsonProcessingException, SQLException {
-        Faker faker = new Faker(Locale.ENGLISH);
-
         int companyID = serviceEmpl.getCompanyID();
         String firstName = faker.name().firstName();
         String lastName = faker.name().lastName();
@@ -105,6 +105,30 @@ public class ContractTest {
         assertEquals(employee.firstName(), firstName);
         assertEquals(employee.lastName(), lastName);
         assertEquals(employee.phone(), phone);
+        assertTrue(employee.isActive());
+    }
+
+    @Test
+    @DisplayName("Проверка метода, который возвращает информацию о сотруднике по ID")
+    @Positive
+    public void testGetEmployeeById(ServiceDB serviceDB, EmployeeService serviceEmpl) throws SQLException {
+        int companyID = serviceEmpl.getCompanyID();
+        String firstName = faker.name().firstName();
+        String lastName = faker.name().lastName();
+        String phone = faker.phoneNumber().cellPhone();
+
+        int emplID = serviceDB.createEmployee(firstName, lastName, companyID, phone);
+
+        Employee employee = given()
+                .get(URL + "/{id}", emplID)
+                .then()
+                .statusCode(200)
+                .extract().jsonPath().getObject("", Employee.class);
+
+        assertEquals(firstName, employee.firstName());
+        assertEquals(lastName, employee.lastName());
+        assertEquals(companyID, employee.companyId());
+        assertEquals(phone, employee.phone());
         assertTrue(employee.isActive());
     }
 
