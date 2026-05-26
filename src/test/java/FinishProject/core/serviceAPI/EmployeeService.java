@@ -2,6 +2,7 @@ package FinishProject.core.serviceAPI;
 
 import FinishProject.core.model.CreateEmployeeRequest;
 import FinishProject.core.model.CreateEmployeeResponse;
+import FinishProject.core.model.Employee;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.*;
 
@@ -44,6 +45,16 @@ public class EmployeeService {
                 .build();
         Response response = client.newCall(request).execute();
         return mapper.readValue(response.body().string(), CreateEmployeeResponse.class).id();
+    }
+
+    public Employee getEmployeeById(int id) throws IOException {
+        Request request = new Request.Builder()
+                .url(URL + "/" + id)
+                .get()
+                .build();
+
+        Response response = client.newCall(request).execute();
+        return mapper.readValue(response.body().string(), Employee.class);
     }
 
 }

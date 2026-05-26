@@ -43,4 +43,26 @@ public class EmployeeTest {
 
     }
 
+    @Test
+    @DisplayName("Проверка получения сотрудника по ID")
+    @Positive
+    public void testGetEmployeeById(ServiceDB dbService, EmployeeService emplService) throws SQLException, IOException {
+        Faker faker = new Faker(Locale.ENGLISH);
+
+        int companyID = emplService.getCompanyID();
+        String firstName = faker.name().firstName();
+        String lastName = faker.name().lastName();
+        String phone = faker.phoneNumber().cellPhone();
+
+        int emplID = dbService.createEmployee(firstName,lastName, companyID, phone);
+
+        Employee employee = emplService.getEmployeeById(emplID);
+
+        assertEquals(companyID, employee.companyId());
+        assertEquals(firstName, employee.firstName());
+        assertEquals(lastName, employee.lastName());
+        assertEquals(phone, employee.phone());
+        assertTrue(employee.isActive());
+    }
+
 }
